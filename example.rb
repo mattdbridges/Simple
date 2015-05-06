@@ -1,10 +1,8 @@
 puts <<-EX
 
 Machine.new(
-  LessThan.new(
-    Number.new(5),
-    Add.new(Number.new(2), Number.new(2))
-  )
+  Add.new(Variable.new(:x), Variable.new(:y)),
+  {:x => Number.new(3), :y => Number.new(4) }
 ).run
 
 EX

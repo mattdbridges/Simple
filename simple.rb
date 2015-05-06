@@ -1,7 +1,7 @@
-class Machine < Struct.new(:expression)
+class Machine < Struct.new(:expression, :environment)
 
   def step
-    self.expression = expression.reduce
+    self.expression = expression.reduce(environment)
   end
 
   def run
@@ -41,13 +41,13 @@ class Add < Struct.new(:left, :right)
     true
   end
 
-  def reduce
+  def reduce(environment)
     if left.reducible?
-      puts "Add: reducing left side - #{left}"
-      Add.new(left.reduce, right)
+      puts "Add: reducing left side - #{left} with env #{environment.inspect}"
+      Add.new(left.reduce(environment), right)
     elsif right.reducible?
-      puts "Add: reducing right side - #{right}"
-      Add.new(left, right.reduce)
+      puts "Add: reducing right side - #{right} with env #{environment.inspect}"
+      Add.new(left, right.reduce(environment))
     else
       Number.new(left.value + right.value)
     end
@@ -67,13 +67,13 @@ class Multiply < Struct.new(:left, :right)
     true
   end
 
-  def reduce
+  def reduce(environment)
     if left.reducible?
-      puts "Multiply: reducing left side - #{left}"
-      Multiply.new(left.reduce, right)
+      puts "Multiply: reducing left side - #{left} with env #{environment.inspect}"
+      Multiply.new(left.reduce(environment), right)
     elsif right.reducible?
-      puts "Multiply: reducing right side - #{right}"
-      Multiply.new(left, right.reduce)
+      puts "Multiply: reducing right side - #{right} with env #{environment.inspect}"
+      Multiply.new(left, right.reduce(environment))
     else
       Number.new(left.value * right.value)
     end
@@ -107,15 +107,33 @@ class LessThan < Struct.new(:left, :right)
     true
   end
 
-  def reduce
+  def reduce(environment)
     if left.reducible?
       puts "LessThan: reducing left side - #{left}"
-      LessThan.new(left.reduce, right)
+      LessThan.new(left.reduce(environment), right)
     elsif right.reducible?
       puts "LessThan: reducing right side - #{right}"
-      LessThan.new(left, right.reduce)
+      LessThan.new(left, right.reduce(environment))
     else
       Boolean.new(left.value < right.value)
     end
+  end
+end
+
+class Variable < Struct.new(:name)
+  def to_s
+    name.to_s
+  end
+
+  def inspect
+    "<<#{self}>>"
+  end
+
+  def reducible?
+    true
+  end
+
+  def reduce(environment)
+    environment[name]
   end
 end
