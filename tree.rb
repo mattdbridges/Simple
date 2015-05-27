@@ -10,7 +10,7 @@ class Tree < Struct.new(:machine)
       result << " |\n"
     end
 
-    result << "-o #{root.to_s}\n"
+    result << "-o #{root.class}\n"
 
     if has_left?(root)
       result << " |\n"
@@ -29,7 +29,7 @@ class Tree < Struct.new(:machine)
         result << "#{line}#{right ? ' ' : '|'} |\n"
       end
 
-      result << "#{line}+-o #{expression.tree_name}\n"
+      result << "#{line}+-o #{expression.class}\n"
 
       if has_left?(expression)
         result << "#{line}#{right ? '|' : ' '} |\n"
