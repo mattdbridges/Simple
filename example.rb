@@ -1,10 +1,11 @@
 puts <<-EX
 
 Machine.new(
-  Add.new(
-    Multiply.new(Number.new(1), Number.new(2)),
-    Multiply.new(Number.new(3), Number.new(4))
-  )
+  Sequence.new(
+    Assign.new(:x, Boolean.new(true)),
+    Assign.new(:x, Add.new(Variable.new(:x), Number.new(1)))
+  ),
+  { }
 ).run
 
 EX
