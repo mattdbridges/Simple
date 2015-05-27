@@ -19,6 +19,10 @@ class Number < Struct.new(:value)
     value.to_s
   end
 
+  def tree_name
+    value
+  end
+
   def inspect
     "<<#{self}>>"
   end
@@ -31,6 +35,10 @@ end
 class Add < Struct.new(:left, :right)
   def to_s
     "#{left} + #{right}"
+  end
+
+  def tree_name
+    "ADD"
   end
 
   def inspect
@@ -57,6 +65,10 @@ end
 class Multiply < Struct.new(:left, :right)
   def to_s
     "#{left} * #{right}"
+  end
+
+  def tree_name
+    "MULTIPLY"
   end
 
   def inspect
