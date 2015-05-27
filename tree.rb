@@ -38,11 +38,11 @@ class Tree < Struct.new(:machine)
       end
     end
 
-    def has_right?(heap)
-      heap.respond_to?(:right) && heap.right
+    def has_right?(expression)
+      expression.respond_to?(:right) && expression.right
     end
 
-    def has_left?(heap)
-      heap.respond_to?(:left) && heap.left
+    def has_left?(expression)
+      expression.respond_to?(:left) && expression.left
     end
 end
